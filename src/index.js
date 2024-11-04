@@ -66,8 +66,9 @@ export function addCard(evt) {
     evt.preventDefault();
     const cardName = cardForm.elements.placeName.value;
     const cardLink = cardForm.elements.link.value;
-    itemList.prepend(createCard({name: cardName, link: cardLink}, removeCard));
+    itemList.prepend(createCard({name: cardName, link: cardLink}, removeCard, likeCard, popupCard));
     closeModal(cardForm, evt);
+    cardForm.reset();
 }
 
 /*------------------Попап картчоки--------------------------*/

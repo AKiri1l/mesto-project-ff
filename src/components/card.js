@@ -24,5 +24,6 @@ export function removeCard(event) {
 }
 
 export function likeCard(event) {
+    console.log(event.target);
     event.target.classList.toggle('card__like-button_is-active');
 }
