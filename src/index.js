@@ -66,7 +66,7 @@ function addCard(evt) {
     const cardName = cardForm.elements.placeName.value;
     const cardLink = cardForm.elements.link.value;
     itemList.prepend(createCard({name: cardName, link: cardLink}, removeCard, likeCard, openImagePopup));
-    closeModal(cardForm, evt);
+    closeModal(newCardPopup);
     cardForm.reset();
 }
 
