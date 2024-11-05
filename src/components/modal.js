@@ -7,8 +7,6 @@ export function openPopup(popup) {
 }
 
 function handleClosePopup(evt) {
-    console.log(evt.target);
-    console.log(evt.currentTarget);
     if (evt.target.classList.contains('popup__close')  || evt.target.classList.contains('popup') || evt.key === 'Escape') {    
         const popup = document.querySelector('.popup_is-opened');
         closePopup(popup);                         
