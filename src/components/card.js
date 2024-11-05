@@ -1,4 +1,4 @@
-export function createCard(item, deleteFunction, likeFunction, popupFunction) {
+export function createCard(item, deleteFunction, likeFunction, openImagePopup) {
     const template = document.querySelector('#card-template').content;
     const templateElement = template.querySelector('.card').cloneNode(true);
     const cardImage = templateElement.querySelector('.card__image');
@@ -13,8 +13,7 @@ export function createCard(item, deleteFunction, likeFunction, popupFunction) {
     const likeButton = templateElement.querySelector('.card__like-button');
     likeButton.addEventListener('click', likeFunction);
 
-    const imageList = document.querySelector('.places__list');
-    imageList.addEventListener('click', popupFunction);
+    cardImage.addEventListener('click', openImagePopup);
 
     return templateElement;
 }
@@ -24,6 +23,5 @@ export function removeCard(event) {
 }
 
 export function likeCard(event) {
-    console.log(event.target);
     event.target.classList.toggle('card__like-button_is-active');
 }
