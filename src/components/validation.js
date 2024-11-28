@@ -35,10 +35,8 @@ function isValid(input, form, object) {
         input.setCustomValidity("");
     }
     if(input.validity.valid){
-        input.classList.remove('popup__input-invalid')
         hideError(form, input, object)
     }else{
-        input.classList.add('popup__input-invalid')
         showError(form, input, input.validationMessage, object)   
     }
 }
@@ -70,7 +68,6 @@ export function enableValidation(object) {
 export function clearValidation(form, validationConfig){
     const inputList = form.querySelectorAll(validationConfig.inputSelector);
     inputList.forEach(element => {
-        isValid(element, form, validationConfig);
         hideError(form,element,validationConfig);
     })
     buttonValidation(form, validationConfig);

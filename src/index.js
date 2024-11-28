@@ -40,6 +40,8 @@ let userId;
 
 /*-----------узлы для карточки----------*/
 const imagePopup = document.querySelector('.popup_type_image');
+const image = document.querySelector('.popup__image');
+const popupCaption = document.querySelector('.popup__caption');
 
 Promise.all([getUser(), getCards()])
     .then(([user, cards]) => {
@@ -62,82 +64,75 @@ profileButton.addEventListener('click', () => {
     openModal(profilePopup);
 });
 cardAddButton.addEventListener('click', () => {
-    place.value = '';
-    link.value = '';
+    cardForm.reset();
     clearValidation(newCardPopup, obj);
     openModal(newCardPopup);
 });
 
-profileFormElement.addEventListener('submit', handleFormSubmit); 
+profileFormElement.addEventListener('submit', handleProfileFormSubmit); 
 cardForm.addEventListener('submit', addCard); 
 
 currentAvatar.addEventListener('click', () => {
-    avatar.value = '';
+    avatarForm.reset();
     clearValidation(avatarPopup, obj);
     openModal(avatarPopup);
 });
 
 avatarForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
-    const button = avatarPopup.querySelector('.popup__button');
-    renderLoading(true, button)
+    renderLoading(true, evt.submitter)
     updateAvatar(avatar.value)
         .then(data => {
             currentAvatar.style.backgroundImage = `url(${data.avatar})`;
         })
+        .then(() => closeModal(avatarPopup))
         .catch((err) => {
             console.log(err); 
           })
         .finally(() => {
-            renderLoading(false, button);
-            closeModal(avatarPopup);
+            renderLoading(false, evt.submitter);
         })
 })
 
 /*------------------------------Редактирование профиля----------------*/
-function handleFormSubmit(evt) {
+function handleProfileFormSubmit(evt) {
     evt.preventDefault();
-    const button = profilePopup.querySelector('.popup__button')
-    renderLoading(true, button);
+    renderLoading(true, evt.submitter);
     updateProfile(name.value, description.value)
         .then(res => {
             currentName.textContent = res.name;
             currentDescription.textContent = res.about;
         })
+        .then(() => closeModal(profilePopup))
         .catch((err) => {
             console.log(err); 
           })
         .finally(() => {
-            renderLoading(false, button);
-            closeModal(profilePopup);
+            renderLoading(false, evt.submitter);
         })
 }
 
 /*-------------------------------Добавление карточки------------------*/
 function addCard(evt) {
     evt.preventDefault();
-    const button = newCardPopup.querySelector('.popup__button')
-    renderLoading(true, button)
+    renderLoading(true, evt.submitter)
     const cardName = cardForm.elements.placeName.value;
     const cardLink = cardForm.elements.link.value;
     setCard(cardName, cardLink)
         .then(data => {
             itemList.prepend(createCard(data, deleteCard, setLike, deleteLike, openImagePopup, userId));
         })
+        .then(() => closeModal(newCardPopup))
         .catch((err) => {
             console.log(err); 
           })
         .finally(() => {
-            renderLoading(false, button);
-            closeModal(newCardPopup);
+            renderLoading(false, evt.submitter);
         })
-    cardForm.reset();
 }
 
 /*------------------Попап картчоки--------------------------*/
 function openImagePopup(event) {
-    const image = document.querySelector('.popup__image');
-    const popupCaption = document.querySelector('.popup__caption');
     image.src = event.target.src;
     image.alt = event.target.alt;
     popupCaption.textContent = event.target.alt;

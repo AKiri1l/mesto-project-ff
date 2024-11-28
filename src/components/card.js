@@ -16,10 +16,10 @@ export function createCard(item, deleteFunction, likeFunction, unlikeFunction, o
     }else{
         deleteButton.addEventListener('click', (event) => {
             deleteFunction(item._id)
+                .then(() => event.target.closest('.card').remove())
                 .catch((err) => {
                     console.log(err); 
                 });
-            event.target.closest('.card').remove();
         });
     }
 
@@ -28,20 +28,21 @@ export function createCard(item, deleteFunction, likeFunction, unlikeFunction, o
             unlikeFunction(item._id)
             .then(data => {
                 cardLikeValue.textContent = data.likes.length;
+                event.target.classList.toggle('card__like-button_is-active');
             })
             .catch((err) => {
-                console.log(err); // выводим ошибку в консоль
+                console.log(err);
               });
         }else{
             likeFunction(item._id)
             .then(data => {
                 cardLikeValue.textContent = data.likes.length;
+                event.target.classList.toggle('card__like-button_is-active');
             })
             .catch((err) => {
-                console.log(err); // выводим ошибку в консоль
+                console.log(err);
               });
         }
-        event.target.classList.toggle('card__like-button_is-active');
     });
 
     if(item.likes.some(element => {
